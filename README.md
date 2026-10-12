@@ -81,6 +81,16 @@ nicht Bestandteil dieses Plugins.
 
 ## Prüfung und technische Grenzen
 
+Ab Version **1.1.2** läuft die Domainprüfung bereits in der `boot()`-Phase des
+ServiceProviders. Sie ist damit zusätzlich zur Web-Middleware eingebunden.
+Die lokalen HTTP-Tests prüfen diesen Einstieg ausdrücklich ohne Web-Middleware.
+
+Nach der Bereitstellung lässt sich unter
+`/rest/registration-domain-guard/status` prüfen, welche Version im Shop geladen
+ist und ob eine gültige Domainliste gespeichert ist. Erwartet:
+`version: "1.1.2"`, `active: true` und `configured: true`.
+Der Endpunkt gibt keine E-Mail-Adressen oder konfigurierten Domainnamen aus.
+
 Die lokale Testsuite prüft Domainlisten, ungültige Konfiguration, Kontaktformate,
 Umgehungsversuche und beide Endpunkte. HTTP-Tests führen die tatsächliche
 Middleware mit lokalen Ersatzklassen für die Plenty-Schnittstellen aus und
@@ -94,11 +104,12 @@ Plugin-Kombination stehen noch aus. Vor dem Live-Einsatz im Test-Set prüfen:
 3. Leere Liste und fehlerhafte Domain nur im Test-Set prüfen: keine Registrierung möglich.
 4. Bestehende Anmeldung und Checkout prüfen.
 
-Das Plugin registriert eine globale Middleware und greift nur bei den genannten
-Registrierungs-POSTs ein. Da `Middleware::before()` keinen dokumentierten
+Das Plugin prüft beim Start des ServiceProviders und in einer globalen Middleware
+und greift nur bei den genannten Registrierungs-POSTs ein. Da `Middleware::before()` keinen dokumentierten
 Rückgabewert zum Abbrechen bietet, beendet die Ablehnung die Anfrage nach der
 JSON-Fehlerantwort ausdrücklich. Es werden keine Marketplace-Dateien ersetzt,
-keine neuen Routen angelegt und keine Datenbankmigrationen ausgeführt.
+außer dem lesenden Status-Endpunkt keine neuen Routen angelegt und keine
+Datenbankmigrationen ausgeführt.
 
 ## Schnittstellen
 
