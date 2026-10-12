@@ -1,0 +1,16 @@
+{
+    "name": "RegistrationDomainGuard",
+    "namespace": "RegistrationDomainGuard",
+    "version": "1.1.0",
+    "type": "integration",
+    "license": "proprietary",
+    "isClosedSource": false,
+    "description": "Registrierungen in plentyShop LTS und B2B Shop auf konfigurierbare E-Mail-Domains beschraenken.",
+    "author": "edgardicked-hub",
+    "email": "224292746+edgardicked-hub@users.noreply.github.com",
+    "pluginIcon": "icon_plugin.png",
+    "authorIcon": "icon_plugin.png",
+    "serviceProvider": "RegistrationDomainGuard\\Providers\\RegistrationGuardServiceProvider",
+    "require": { "IO": ">=5.0.0 <6.0.0" },
+    "platform": { "php": ">=7.4 <9.0" }
+}

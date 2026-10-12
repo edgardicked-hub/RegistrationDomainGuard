@@ -1,0 +1,19 @@
+{
+    "formatVersion": 1,
+    "menu": {
+        "registration": {
+            "label": "Config.registration",
+            "formFields": {
+                "allowedDomains": {
+                    "type": "inputTextArea",
+                    "required": true,
+                    "label": "Config.allowedDomains",
+                    "options": {
+                        "defaultValue": "",
+                        "tooltip": "Config.allowedDomainsTooltip"
+                    }
+                }
+            }
+        }
+    }
+}
