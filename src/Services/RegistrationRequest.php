@@ -26,6 +26,9 @@ class RegistrationRequest
         }
         $path = implode('/', $segments);
 
-        return (bool) preg_match('/\A(?:rest\/(?:v[0-9]+\/)?)?(?:io|b2b)\/customer\z/D', $path);
+        return (bool) preg_match(
+            '~\A(?:(?:[a-z]{2}(?:-[a-z]{2})?/)?rest/(?:v[0-9]+/)?)?(?:io|b2b)/customer\z~D',
+            $path
+        );
     }
 }
