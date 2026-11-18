@@ -16,7 +16,7 @@ class StatusController extends Controller
         $domains = $policy->normalizeDomains($config->get('RegistrationDomainGuard.allowedDomains', ''));
         return $response->make(json_encode([
             'plugin' => 'RegistrationDomainGuard',
-            'version' => '1.1.2',
+            'version' => '1.1.3',
             'active' => true,
             'configured' => count($domains) > 0,
             'domainCount' => count($domains)

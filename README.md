@@ -69,6 +69,8 @@ weiter. Das Zusatz-Plugin legt selbst keine Kontakte an und versendet keine Mail
 - Standard-LTS-Registrierung: `POST /rest/io/customer`.
 - B2B-Shop-Registrierung: `POST /rest/b2b/customer` mit IO-kompatiblen
   Kontaktdaten. Andere B2B-Plugins oder eigene Endpunkte sind separat zu prüfen.
+- Ab Version **1.1.3** gilt dieselbe Domainliste auch für Pfade mit einem
+  Sprachpräfix, etwa `POST /de/rest/io/customer/`.
 - Geprüft wird die Login-Adresse in `contact.options` mit `typeId=2` und
   `subTypeId=4`, gegebenenfalls zusätzlich der gleichlautende Alias
   `contact.email`. Widersprüchliche Adressen und doppelte Login-Optionen werden
@@ -83,23 +85,22 @@ nicht Bestandteil dieses Plugins.
 
 Ab Version **1.1.2** läuft die Domainprüfung bereits in der `boot()`-Phase des
 ServiceProviders. Sie ist damit zusätzlich zur Web-Middleware eingebunden.
-Die lokalen HTTP-Tests prüfen diesen Einstieg ausdrücklich ohne Web-Middleware.
 
 Nach der Bereitstellung lässt sich unter
 `/rest/registration-domain-guard/status` prüfen, welche Version im Shop geladen
 ist und ob eine gültige Domainliste gespeichert ist. Erwartet:
-`version: "1.1.2"`, `active: true` und `configured: true`.
+`version: "1.1.3"`, `active: true` und `configured: true`.
 Der Endpunkt gibt keine E-Mail-Adressen oder konfigurierten Domainnamen aus.
 
-Die lokale Testsuite prüft Domainlisten, ungültige Konfiguration, Kontaktformate,
-Umgehungsversuche und beide Endpunkte. HTTP-Tests führen die tatsächliche
-Middleware mit lokalen Ersatzklassen für die Plenty-Schnittstellen aus und
-prüfen, dass eine Ablehnung den nachfolgenden Controller nicht erreicht.
+`php tests/RegistrationRequestTest.php` prüft die Erkennung der Registrierungswege
+mit und ohne Sprachpräfix sowie die Abgrenzung zu Login und Checkout.
 
 Der vollständige Plenty-Build und die Formularprüfung in einer konkreten
 Plugin-Kombination stehen noch aus. Vor dem Live-Einsatz im Test-Set prüfen:
 
-1. Fremde Domain in beiden Registrierungswegen absenden: Fehlermeldung, kein angelegter Kontakt.
+1. In beiden Registrierungswegen eine fremde Domain absenden und prüfen, dass
+   eine Fehlermeldung erscheint und kein Kontakt angelegt wird. Auch den Pfad mit
+   Sprachpräfix im Test-Set prüfen, etwa `/de/rest/io/customer/`.
 2. Jede erlaubte Domain mit einer dafür vorgesehenen Testadresse prüfen.
 3. Leere Liste und fehlerhafte Domain nur im Test-Set prüfen: keine Registrierung möglich.
 4. Bestehende Anmeldung und Checkout prüfen.
